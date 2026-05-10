@@ -131,10 +131,10 @@ body {
   border-radius: 100px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   cursor: pointer;
   flex-shrink: 0;
-  padding: 0;
+  padding: 0 0 0 14px;
 }
 .compose-btn svg { display: block; width: 22px; height: 22px; }
 
@@ -788,6 +788,49 @@ body {
   color: #3c3c43;
   font-weight: 400;
   margin: 6px 14px 4px 0;
+}
+
+/* Small floating avatar attached to the bottom-left of a "me" bubble */
+.cd-me-wrap .cd-bubble.me { position: relative; }
+.cd-bubble-avatar {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #ddd;
+  border: 1.5px solid #fff;
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.06);
+}
+.cd-bubble-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cd-bubble-avatar.bl {
+  left: -6px;
+  bottom: -6px;
+}
+.cd-bubble-avatar.br {
+  right: -6px;
+  bottom: -6px;
+}
+/* Wrapper that holds a bubble + an absolutely positioned floating avatar.
+   Sits inside the right-aligned cd-me-wrap; bubble keeps its own layout. */
+.cd-bubble-with-avatar {
+  position: relative;
+  display: inline-block;
+  max-width: 88%;
+}
+.cd-bubble-with-avatar .cd-bubble {
+  max-width: 100%;
+}
+/* Avatar attached to the bottom-right of a "Faith via Meet" missed-call group */
+.cd-group { position: relative; }
+.cd-group .cd-bubble-avatar.br {
+  right: 14px;
+  bottom: -6px;
 }
 
 /* Reactions */
@@ -1479,7 +1522,7 @@ they have good good food and music lol!</div>
     <div class="cd-date">Sunday, May 25</div>
 
     <div class="cd-me-wrap">
-      <div class="cd-me-meta">May 25, 12:32 PM</div>
+      <div class="cd-me-meta">May 25, 12:32 PM, 2025</div>
       <div class="cd-image-wrap">
         <img id="cd-concert-img" alt="Concert">
       </div>
@@ -1490,8 +1533,11 @@ they have good good food and music lol!</div>
     <div class="cd-date">Saturday, May 31</div>
 
     <div class="cd-me-wrap">
-      <div class="cd-me-meta">May 31, 12:48 PM</div>
-      <div class="cd-bubble me" style="font-weight:700;">hey, before you head out, could we just say goodbye in person? i’m around though.</div>
+      <div class="cd-me-meta">May 31, 12:48 PM, 2025</div>
+      <div class="cd-bubble-with-avatar">
+        <div class="cd-bubble me" style="font-weight:700;">hey, before you head out, could we just say goodbye in person? i’m around though.</div>
+        <span class="cd-bubble-avatar bl" id="cd-faith-mini"><img alt=""></span>
+      </div>
     </div>
 
     <!-- Thursday, Mar 19 (Missed calls) -->
@@ -1523,6 +1569,7 @@ they have good good food and music lol!</div>
           <span>Call missed</span>
         </div>
       </div>
+      <span class="cd-bubble-avatar br" id="cd-muhaimen-mini"><img alt="" src="data:image/jpeg;base64,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"></span>
     </div>
 
     <div style="height:10px;"></div>
@@ -1670,6 +1717,10 @@ they have good good food and music lol!</div>
     document.querySelectorAll('.cd-faith-avatar img').forEach(img => {
       img.setAttribute('src', src);
     });
+
+    // Faith mini avatar (bottom-left of "hey, before you head out" bubble)
+    const faithMini = document.querySelector('#cd-faith-mini img');
+    if (faithMini) faithMini.setAttribute('src', src);
   })();
 
   // Pull user's profile pic for quote-reply author avatar
